@@ -1,4 +1,5 @@
 from models.usuario import Usuario
+#pip install bcrypt
 
 class UsuarioController:
     def __init__(self, db_connection):
