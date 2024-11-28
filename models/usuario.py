@@ -1,6 +1,8 @@
+import bcrypt
+
 class Usuario:
     def __init__(self, id=None, nome="", email="", senha="", cpf="", admin=False):
-        self.id = id  # Identificador único
+        self.id = id
         self.nome = nome
         self.email = email
         self.senha = senha
@@ -42,26 +44,14 @@ class Usuario:
         """Valida o formato do CPF (apenas tamanho e dígitos)."""
         return cpf.isdigit() and len(cpf) == 11
 
-    @staticmethod
-    def validar_senha(senha):
-        """Valida a senha (pode incluir critérios como comprimento mínimo ou complexidade)."""
-        # Exemplo de validação simples: senha deve ter no mínimo 6 caracteres
-        return len(senha) >= 6
+    def hash_senha(self):
+        """Gera o hash da senha usando bcrypt."""
+        salt = bcrypt.gensalt()
+        return bcrypt.hashpw(self.senha.encode('utf-8'), salt)
 
-    @staticmethod
-    def verificar_unicidade_email(email, usuarios_cadastrados):
-        """Verifica se o email já está cadastrado (lista de usuários como parâmetro)."""
-        for usuario in usuarios_cadastrados:
-            if usuario.email == email:
-                return False  # Email já cadastrado
-        return True
+    def verificar_senha(self, senha):
+        """Verifica se a senha fornecida corresponde ao hash armazenado."""
+        return bcrypt.checkpw(senha.encode('utf-8'), self.senha.encode('utf-8'))
 
-    @staticmethod
-    def verificar_unicidade_cpf(cpf, usuarios_cadastrados):
-        """Verifica se o CPF já está cadastrado (lista de usuários como parâmetro)."""
-        for usuario in usuarios_cadastrados:
-            if usuario.cpf == cpf:
-                return False  # CPF já cadastrado
-        return True
 
 

@@ -1,15 +1,18 @@
-from database.db_connection import DBConnection
+from models.usuario import Usuario
 
 class UsuarioController:
     def __init__(self, db_connection):
-        self.conn = db_connection.get_conn()
+        self.conn = db_connection  # Já podemos usar a conexão diretamente
 
     def cadastrar_usuario(self, usuario):
+        # Gera o hash da senha antes de salvar
+        senha_hash = usuario.hash_senha()
+
         cursor = self.conn.cursor()
         cursor.execute("""
             INSERT INTO Usuarios (nome, email, senha, cpf, admin) 
             VALUES (%s, %s, %s, %s, %s)
-        """, (usuario.nome, usuario.email, usuario.senha, usuario.cpf, usuario.admin))
+        """, (usuario.nome, usuario.email, senha_hash, usuario.cpf, usuario.admin))
         self.conn.commit()
         cursor.close()
 
@@ -38,4 +41,22 @@ class UsuarioController:
         cursor.execute("DELETE FROM Usuarios WHERE id=%s", (usuario_id,))
         self.conn.commit()
         cursor.close()
+
+    def login(self, email, senha):
+        cursor = self.conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Usuarios WHERE email=%s", (email,))
+        usuario = cursor.fetchone()
+        cursor.close()
+
+        if not usuario:
+            raise ValueError("Email ou senha incorretos.")
+
+        usuario_obj = Usuario.from_dict(usuario)
+
+        # Verifica se a senha fornecida corresponde ao hash
+        if not usuario_obj.verificar_senha(senha):
+            raise ValueError("Email ou senha incorretos.")
+
+        return usuario_obj  # Retorna o usuário autenticado
+
 

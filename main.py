@@ -18,7 +18,7 @@
 
 # def main():
 #     db = DBConnection()
-#     conn = db.connect()  # Conecta diretamente ao banco
+#     conn = db.get_conn()  # Conecta diretamente ao banco
 
 #     if conn:
 #         controller = LivroController(conn)  # Passa a conexão diretamente para o controller
@@ -64,4 +64,77 @@
 
 # if __name__ == "__main__":
 #     main()
+
+
+# from database.db_connection import DBConnection
+# from controllers.usuario_controller import UsuarioController
+# from models.usuario import Usuario
+
+# def main():
+#     # Conectar ao banco de dados
+#     conn = DBConnection().get_conn()
+
+#     # Teste de Cadastrar Usuário
+#     print("### Cadastrar Usuário ###")
+#     try:
+#         usuario = Usuario(nome="João Silva", email="joao.silva@email.com", senha="senha123", cpf="12345678901", admin=False)
+#         usuario_controller = UsuarioController(conn)
+#         usuario_controller.cadastrar_usuario(usuario)
+#         print("Usuário cadastrado com sucesso!")
+#     except Exception as e:
+#         print(f"Erro ao cadastrar usuário: {e}")
+
+#     # Teste de Cadastrar Usuário
+#     print("### Cadastrar Usuário ###")
+#     try:
+#         usuario = Usuario(nome="Paulo Matheus", email="paulo.souza@email.com", senha="123", cpf="03103103131", admin=False)
+#         usuario_controller = UsuarioController(conn)
+#         usuario_controller.cadastrar_usuario(usuario)
+#         print("Usuário cadastrado com sucesso!")
+#     except Exception as e:
+#         print(f"Erro ao cadastrar usuário: {e}")
+
+#     # Teste de Consultar Usuários
+#     print("\n### Consultar Usuários ###")
+#     try:
+#         usuarios = usuario_controller.consultar_usuarios(filtro="João")
+#         for u in usuarios:
+#             print(f"ID: {u['id']}, Nome: {u['nome']}, Email: {u['email']}, Admin: {u['admin']}")
+#     except Exception as e:
+#         print(f"Erro ao consultar usuários: {e}")
+
+#     # Teste de Atualizar Usuário
+#     print("\n### Atualizar Usuário ###")
+#     try:
+#         usuario_id = usuarios[0]['id']  # Pegar o ID do primeiro usuário cadastrado
+#         usuario_controller.atualizar_usuario(usuario_id, {'nome': 'João Silva Atualizado'})
+#         print("Usuário com ID", usuario_id, "atualizado com sucesso!")
+#     except Exception as e:
+#         print(f"Erro ao atualizar usuário: {e}")
+
+#     # Teste de Excluir Usuário
+#     print("\n### Excluir Usuário ###")
+#     try:
+#         usuario_controller.excluir_usuario(usuario_id)
+#         print(f"Usuário com ID {usuario_id} excluído com sucesso!")
+#     except Exception as e:
+#         print(f"Erro ao excluir usuário: {e}")
+
+#     # Teste de Login de Usuário
+#     print("\n### Login de Usuário ###")
+#     try:
+#         login_usuario = usuario_controller.login("paulo.souza@email.com", "123")
+#         print(f"Usuário {login_usuario.nome} autenticado com sucesso!")
+#     except ValueError as e:
+#         print(f"Erro ao fazer login: {e}")
+
+#     # Fechar conexão com o banco de dados
+#     conn.close()
+#     print("\nConexão encerrada.")
+
+# if __name__ == "__main__":
+#     main()
+
+
+
 
