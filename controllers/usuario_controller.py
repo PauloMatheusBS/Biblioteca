@@ -61,3 +61,28 @@ class UsuarioController:
         return usuario_obj  # Retorna o usuário autenticado
 
 
+    def cadastrar_usuario(self, usuario):
+        cursor = self.conn.cursor()
+        try:
+            cursor.execute("INSERT INTO Usuarios (nome, email, senha, cpf, admin) VALUES (%s, %s, %s, %s, %s)", 
+                           (usuario.nome, usuario.email, usuario.senha, usuario.cpf, usuario.admin))
+            self.conn.commit()
+        except mysql.connector.IntegrityError:
+            raise ValueError(f"Erro: Email ou CPF já cadastrado.")
+        finally:
+            cursor.close()
+
+    def usuario_existe(self, email):
+        cursor = self.conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Usuarios WHERE email = %s", (email,))
+        usuario = cursor.fetchone()
+        cursor.close()
+        return usuario is not None
+
+    def validar_login(self, email, senha):
+        cursor = self.conn.cursor(dictionary=True)
+        cursor.execute("SELECT * FROM Usuarios WHERE email = %s AND senha = %s", (email, senha))
+        usuario = cursor.fetchone()
+        cursor.close()
+        return usuario is not None
+

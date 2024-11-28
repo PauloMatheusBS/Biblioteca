@@ -135,70 +135,83 @@
 # if __name__ == "__main__":
 #     main()
 
+# from database.db_connection import DBConnection
+# from controllers.usuario_controller import UsuarioController
+# from controllers.livro_controller import LivroController
+# from controllers.emprestimo_controller import EmprestimoController
+# from models.usuario import Usuario
+# from models.livro import Livro
+# from models.emprestimo import Emprestimo
+
+# def main():
+#     # Conectar ao banco de dados
+#     db = DBConnection()
+#     conn = db.get_conn()  # Agora utilizando get_conn()
+
+#     if conn:
+#         usuario_controller = UsuarioController(conn)
+#         livro_controller = LivroController(conn)
+#         emprestimo_controller = EmprestimoController(conn)
+
+#         # ### Criar um usuário ###
+#         print("### Criar Usuário ###")
+#         novo_usuario = Usuario(nome="Maria Oliveira", email="maria.oliveira@email.com", senha="senha123", cpf="12345678901", admin=False)
+#         try:
+#             usuario_controller.cadastrar_usuario(novo_usuario)
+#             print("Usuário 'Maria Oliveira' cadastrado com sucesso!")
+#         except ValueError as e:
+#             print(f"Erro ao cadastrar usuário: {e}")
+
+#         # ### Criar um livro ###
+#         print("\n### Criar Livro ###")
+#         novo_livro = Livro(titulo="O Senhor dos Anéis", autor="J.R.R. Tolkien", isbn="9780261103573", genero="Fantasia", disponivel=True)
+#         try:
+#             livro_controller.cadastrar_livro(novo_livro)
+#             print("Livro 'O Senhor dos Anéis' cadastrado com sucesso!")
+#         except ValueError as e:
+#             print(f"Erro ao cadastrar livro: {e}")
+
+#         # ### Realizar Empréstimo ###
+#         print("\n### Realizar Empréstimo ###")
+#         try:
+#             emprestimo_controller.realizar_emprestimo(usuario_id=1, livro_id=1, data_emprestimo="2024-11-28")
+#             print("Empréstimo realizado com sucesso!")
+#         except ValueError as e:
+#             print(f"Erro ao realizar empréstimo: {e}")
+
+#         # ### Consultar Empréstimos ###
+#         print("\n### Consultar Empréstimos ###")
+#         emprestimos = emprestimo_controller.consultar_emprestimos(filtro="1")  # Filtro por usuário_id
+#         for emprestimo in emprestimos:
+#             print(f"ID: {emprestimo['id']}, Usuario ID: {emprestimo['usuario_id']}, Livro ID: {emprestimo['livro_id']}, Data Empréstimo: {emprestimo['data_emprestimo']}, Data Devolução: {emprestimo['data_devolucao']}")
+
+#         # ### Devolver Empréstimo ###
+#         print("\n### Devolver Empréstimo ###")
+#         try:
+#             emprestimo_controller.devolver_emprestimo(emprestimo_id=1, data_devolucao="2024-12-05")
+#             print("Empréstimo devolvido com sucesso!")
+#         except ValueError as e:
+#             print(f"Erro ao devolver empréstimo: {e}")
+
+#         db.close()
+
+# if __name__ == "__main__":
+#     main()
+
+
 from database.db_connection import DBConnection
-from controllers.usuario_controller import UsuarioController
-from controllers.livro_controller import LivroController
-from controllers.emprestimo_controller import EmprestimoController
-from models.usuario import Usuario
-from models.livro import Livro
-from models.emprestimo import Emprestimo
+from views.login_ui import run_app
 
 def main():
-    # Conectar ao banco de dados
     db = DBConnection()
-    conn = db.get_conn()  # Agora utilizando get_conn()
-
+    conn = db.get_conn()
+    
     if conn:
-        usuario_controller = UsuarioController(conn)
-        livro_controller = LivroController(conn)
-        emprestimo_controller = EmprestimoController(conn)
-
-        # ### Criar um usuário ###
-        print("### Criar Usuário ###")
-        novo_usuario = Usuario(nome="Maria Oliveira", email="maria.oliveira@email.com", senha="senha123", cpf="12345678901", admin=False)
-        try:
-            usuario_controller.cadastrar_usuario(novo_usuario)
-            print("Usuário 'Maria Oliveira' cadastrado com sucesso!")
-        except ValueError as e:
-            print(f"Erro ao cadastrar usuário: {e}")
-
-        # ### Criar um livro ###
-        print("\n### Criar Livro ###")
-        novo_livro = Livro(titulo="O Senhor dos Anéis", autor="J.R.R. Tolkien", isbn="9780261103573", genero="Fantasia", disponivel=True)
-        try:
-            livro_controller.cadastrar_livro(novo_livro)
-            print("Livro 'O Senhor dos Anéis' cadastrado com sucesso!")
-        except ValueError as e:
-            print(f"Erro ao cadastrar livro: {e}")
-
-        # ### Realizar Empréstimo ###
-        print("\n### Realizar Empréstimo ###")
-        try:
-            emprestimo_controller.realizar_emprestimo(usuario_id=1, livro_id=1, data_emprestimo="2024-11-28")
-            print("Empréstimo realizado com sucesso!")
-        except ValueError as e:
-            print(f"Erro ao realizar empréstimo: {e}")
-
-        # ### Consultar Empréstimos ###
-        print("\n### Consultar Empréstimos ###")
-        emprestimos = emprestimo_controller.consultar_emprestimos(filtro="1")  # Filtro por usuário_id
-        for emprestimo in emprestimos:
-            print(f"ID: {emprestimo['id']}, Usuario ID: {emprestimo['usuario_id']}, Livro ID: {emprestimo['livro_id']}, Data Empréstimo: {emprestimo['data_emprestimo']}, Data Devolução: {emprestimo['data_devolucao']}")
-
-        # ### Devolver Empréstimo ###
-        print("\n### Devolver Empréstimo ###")
-        try:
-            emprestimo_controller.devolver_emprestimo(emprestimo_id=1, data_devolucao="2024-12-05")
-            print("Empréstimo devolvido com sucesso!")
-        except ValueError as e:
-            print(f"Erro ao devolver empréstimo: {e}")
-
+        run_app(conn)
         db.close()
 
 if __name__ == "__main__":
     main()
-
-
 
 
 
