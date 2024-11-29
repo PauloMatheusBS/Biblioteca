@@ -1,82 +1,44 @@
-from PyQt5.QtWidgets import QMainWindow, QVBoxLayout, QPushButton, QWidget, QTableWidget, QTableWidgetItem, QLineEdit, QHBoxLayout, QMessageBox
-from controllers.emprestimo_controller import EmprestimoController
-
-class GerenciarEmprestimosWindow(QMainWindow):
-    def __init__(self, db_connection):
+class CadastroEmprestimoView(QMainWindow):
+    def __init__(self):
         super().__init__()
-        self.setWindowTitle("Gerenciar Empréstimos")
-        self.db_connection = db_connection
-        self.controller = EmprestimoController(self.db_connection)
+        self.setWindowTitle("Cadastro de Empréstimo")
+        self.setGeometry(300, 300, 400, 300)
 
+        self.init_ui()
+
+    def init_ui(self):
+        # Labels
+        self.label_usuario_id = QLabel("ID do Usuário:", self)
+        self.label_livro_id = QLabel("ID do Livro:", self)
+        self.label_data_emprestimo = QLabel("Data do Empréstimo:", self)
+
+        # Campos de entrada
+        self.usuario_id_input = QLineEdit(self)
+        self.livro_id_input = QLineEdit(self)
+        self.data_emprestimo_input = QLineEdit(self)
+
+        # Botões
+        self.cadastrar_button = QPushButton("Cadastrar Empréstimo", self)
+        self.cadastrar_button.clicked.connect(self.cadastrar_emprestimo)
+
+        # Layout
         layout = QVBoxLayout()
-
-        # Filtro de pesquisa
-        self.filtro_input = QLineEdit()
-        self.filtro_input.setPlaceholderText("Pesquisar empréstimos por usuário ou livro...")
-        btn_pesquisar = QPushButton("Pesquisar")
-        btn_pesquisar.clicked.connect(self.consultar_emprestimos)
-
-        # Tabela de empréstimos
-        self.table = QTableWidget()
-        self.table.setColumnCount(5)
-        self.table.setHorizontalHeaderLabels(["ID", "Usuário", "Livro", "Data Empréstimo", "Data Devolução"])
-
-        # Botões de ação
-        btn_realizar = QPushButton("Realizar Empréstimo")
-        btn_realizar.clicked.connect(self.realizar_emprestimo)
-
-        btn_devolver = QPushButton("Devolver Empréstimo")
-        btn_devolver.clicked.connect(self.devolver_emprestimo)
-
-        # Layout dos componentes
-        layout.addWidget(self.filtro_input)
-        layout.addWidget(btn_pesquisar)
-        layout.addWidget(self.table)
-
-        buttons_layout = QHBoxLayout()
-        buttons_layout.addWidget(btn_realizar)
-        buttons_layout.addWidget(btn_devolver)
-
-        layout.addLayout(buttons_layout)
+        layout.addWidget(self.label_usuario_id)
+        layout.addWidget(self.usuario_id_input)
+        layout.addWidget(self.label_livro_id)
+        layout.addWidget(self.livro_id_input)
+        layout.addWidget(self.label_data_emprestimo)
+        layout.addWidget(self.data_emprestimo_input)
+        layout.addWidget(self.cadastrar_button)
 
         container = QWidget()
         container.setLayout(layout)
         self.setCentralWidget(container)
 
-    def consultar_emprestimos(self):
-        filtro = self.filtro_input.text()
-        emprestimos = self.controller.consultar_emprestimos(filtro)
-        self.table.setRowCount(len(emprestimos))
-        for row, emprestimo in enumerate(emprestimos):
-            self.table.setItem(row, 0, QTableWidgetItem(str(emprestimo['id'])))
-            self.table.setItem(row, 1, QTableWidgetItem(emprestimo['usuario']))
-            self.table.setItem(row, 2, QTableWidgetItem(emprestimo['livro']))
-            self.table.setItem(row, 3, QTableWidgetItem(emprestimo['data_emprestimo']))
-            self.table.setItem(row, 4, QTableWidgetItem(emprestimo['data_devolucao'] if emprestimo['data_devolucao'] else "Não devolvido"))
+    def cadastrar_emprestimo(self):
+        usuario_id = self.usuario_id_input.text()
+        livro_id = self.livro_id_input.text()
+        data_emprestimo = self.data_emprestimo_input.text()
 
-    def realizar_emprestimo(self):
-        # Aqui você pode abrir uma nova tela/formulário para realizar o empréstimo
-        print("Abrir tela para realizar empréstimo.")
-
-    def devolver_emprestimo(self):
-        # Lógica para devolver um empréstimo
-        selected_row = self.table.currentRow()
-        if selected_row >= 0:
-            emprestimo_id = self.table.item(selected_row, 0).text()
-            # Confirmar devolução
-            confirm = QMessageBox.question(self, "Confirmar Devolução", 
-                                           f"Você tem certeza que deseja devolver o empréstimo ID: {emprestimo_id}?", 
-                                           QMessageBox.Yes | QMessageBox.No)
-            if confirm == QMessageBox.Yes:
-                # Chamar método para devolver empréstimo
-                self.controller.devolver_emprestimo(emprestimo_id)
-                self.consultar_emprestimos()  # Atualizar a lista de empréstimos
-        else:
-            self.show_message("Erro", "Selecione um empréstimo para devolver.")
-
-    def show_message(self, title, message):
-        msg = QMessageBox()
-        msg.setIcon(QMessageBox.Information)
-        msg.setText(message)
-        msg.setWindowTitle(title)
-        msg.exec_()
+        # Lógica de cadastro de empréstimo (verificar e salvar no banco de dados)
+        print(f"Empréstimo de livro ID {livro_id} para usuário ID {usuario_id} realizado com sucesso!")
