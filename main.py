@@ -578,7 +578,7 @@
 # if __name__ == "__main__":
 #     app = QApplication(sys.argv)
 
-#     # Substitua pelos seus controladores reais
+#     
 #     db_connection = DBConnection().get_conn()
 #     emprestimo_controller = EmprestimoController(db_connection)
 #     usuario_controller = UsuarioController(db_connection)
@@ -602,30 +602,30 @@ class TelaLogin(QMainWindow):
         self.setWindowTitle("Login")
         self.setGeometry(100, 100, 400, 300)
         
-        # Label e campo para o email
+        
         self.label_email = QLabel("Email:", self)
         self.label_email.setGeometry(50, 50, 100, 30)
         self.input_email = QLineEdit(self)
         self.input_email.setGeometry(150, 50, 200, 30)
 
-        # Label e campo para a senha
+        
         self.label_senha = QLabel("Senha:", self)
         self.label_senha.setGeometry(50, 100, 100, 30)
         self.input_senha = QLineEdit(self)
         self.input_senha.setGeometry(150, 100, 200, 30)
         self.input_senha.setEchoMode(QLineEdit.Password)
 
-        # Botão de login
+        
         self.botao_login = QPushButton("Entrar", self)
         self.botao_login.setGeometry(50, 150, 300, 30)
         self.botao_login.clicked.connect(self.fazer_login)
 
-        # Botão de cadastro
+        
         self.botao_cadastrar = QPushButton("Cadastre-se", self)
         self.botao_cadastrar.setGeometry(50, 200, 300, 30)
         self.botao_cadastrar.clicked.connect(self.abrir_tela_cadastro)
 
-        # Inicializa o controlador de usuários
+       
         db = DBConnection().get_conn()
         self.usuario_controller = UsuarioController(db)
 
