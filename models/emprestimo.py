@@ -2,10 +2,10 @@ from datetime import datetime
 
 class Emprestimo:
     def __init__(self, id=None, usuario_id=None, livro_id=None, data_emprestimo=None, data_devolucao=None):
-        self.id = id  # Identificador único
+        self.id = id  
         self.usuario_id = usuario_id
         self.livro_id = livro_id
-        # Converte as strings de data para datetime, se fornecido
+        
         self.data_emprestimo = datetime.strptime(data_emprestimo, "%Y-%m-%d") if data_emprestimo else None
         self.data_devolucao = datetime.strptime(data_devolucao, "%Y-%m-%d") if data_devolucao else None
 

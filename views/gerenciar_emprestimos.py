@@ -7,21 +7,21 @@ class CadastroEmprestimoView(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        # Labels
+        
         self.label_usuario_id = QLabel("ID do Usuário:", self)
         self.label_livro_id = QLabel("ID do Livro:", self)
         self.label_data_emprestimo = QLabel("Data do Empréstimo:", self)
 
-        # Campos de entrada
+        
         self.usuario_id_input = QLineEdit(self)
         self.livro_id_input = QLineEdit(self)
         self.data_emprestimo_input = QLineEdit(self)
 
-        # Botões
+        
         self.cadastrar_button = QPushButton("Cadastrar Empréstimo", self)
         self.cadastrar_button.clicked.connect(self.cadastrar_emprestimo)
 
-        # Layout
+        
         layout = QVBoxLayout()
         layout.addWidget(self.label_usuario_id)
         layout.addWidget(self.usuario_id_input)
@@ -40,5 +40,5 @@ class CadastroEmprestimoView(QMainWindow):
         livro_id = self.livro_id_input.text()
         data_emprestimo = self.data_emprestimo_input.text()
 
-        # Lógica de cadastro de empréstimo (verificar e salvar no banco de dados)
+        
         print(f"Empréstimo de livro ID {livro_id} para usuário ID {usuario_id} realizado com sucesso!")

@@ -1,12 +1,12 @@
 from models.usuario import Usuario
-#pip install bcrypt
+
 
 class UsuarioController:
     def __init__(self, db_connection):
-        self.conn = db_connection  # Já podemos usar a conexão diretamente
+        self.conn = db_connection  
 
     def cadastrar_usuario(self, usuario):
-        # Gera o hash da senha antes de salvar
+        
         senha_hash = usuario.hash_senha()
 
         cursor = self.conn.cursor()
@@ -54,11 +54,11 @@ class UsuarioController:
 
         usuario_obj = Usuario.from_dict(usuario)
 
-        # Verifica se a senha fornecida corresponde ao hash
+        
         if not usuario_obj.verificar_senha(senha):
             raise ValueError("Email ou senha incorretos.")
 
-        return usuario_obj  # Retorna o usuário autenticado
+        return usuario_obj  
 
 
     def cadastrar_usuario(self, usuario):

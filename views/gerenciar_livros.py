@@ -7,23 +7,23 @@ class CadastroLivroView(QMainWindow):
         self.init_ui()
 
     def init_ui(self):
-        # Labels
+        
         self.label_titulo = QLabel("Título:", self)
         self.label_autor = QLabel("Autor:", self)
         self.label_isbn = QLabel("ISBN:", self)
         self.label_genero = QLabel("Gênero:", self)
 
-        # Campos de entrada
+        
         self.titulo_input = QLineEdit(self)
         self.autor_input = QLineEdit(self)
         self.isbn_input = QLineEdit(self)
         self.genero_input = QLineEdit(self)
 
-        # Botões
+        
         self.cadastrar_button = QPushButton("Cadastrar", self)
         self.cadastrar_button.clicked.connect(self.cadastrar_livro)
 
-        # Layout
+        
         layout = QVBoxLayout()
         layout.addWidget(self.label_titulo)
         layout.addWidget(self.titulo_input)
@@ -45,5 +45,5 @@ class CadastroLivroView(QMainWindow):
         isbn = self.isbn_input.text()
         genero = self.genero_input.text()
 
-        # Lógica de cadastro do livro (verificar e salvar no banco de dados)
+        
         print(f"Livro '{titulo}' cadastrado com sucesso!")

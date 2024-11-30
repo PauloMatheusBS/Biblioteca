@@ -3,7 +3,7 @@ from models.livro import Livro
 
 class LivroController:
     def __init__(self, conn):
-        # Agora a conexão é passada diretamente para o controller
+        
         self.conn = conn
 
     def cadastrar_livro(self, livro):

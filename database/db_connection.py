@@ -33,12 +33,12 @@ import mysql.connector
 
 class DBConnection:
     def __init__(self):
-        # Configurações do banco de dados
+        
         self.config = {
-            'host': "127.0.0.1",  # Substitua pelo seu host
-            'user': "root",       # Substitua pelo seu usuário
-            'password': "31747294",       # Substitua pela sua senha
-            'database': "biblioteca"  # Nome do banco de dados
+            'host': "127.0.0.1",  
+            'user': "root",       
+            'password': "31747294",       
+            'database': "biblioteca"  
         }
         self.conn = None
 
