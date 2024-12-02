@@ -1,5 +1,5 @@
 from controllers.usuario_controller import UsuarioController
-from models.administrador import Administrador
+from models.admin import Administrador
 
 class AdministradorController(UsuarioController):
     def __init__(self, conn):
