@@ -352,7 +352,7 @@
 
 
 
-
+#######################################TELA CADASTRO DE USUARIO#########################################################################
 # import sys
 # from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QLabel, QLineEdit, QCheckBox, QPushButton, QMessageBox
 # from PyQt5.QtGui import QFont
@@ -443,6 +443,7 @@
 #     window.show()
 #     sys.exit(app.exec_())
 
+#######################################TELA CADASTRO DE LIVRO#########################################################################
 
 # import sys
 # from PyQt5.QtWidgets import QApplication
@@ -451,21 +452,21 @@
 # from database.db_connection import DBConnection
 
 # def main():
-#     # Inicializa a aplicação
+    
 #     app = QApplication(sys.argv)
 
-#     # Configurações do banco de dados
+    
 #     db = DBConnection()
 #     conn = db.get_conn()
 
-#     # Instancia o controller
+    
 #     controller = LivroController(conn)
 
-#     # Cria e exibe a tela de cadastro
+    
 #     tela = TelaCadastroLivro(controller)
 #     tela.show()
 
-#     # Executa a aplicação
+    
 #     sys.exit(app.exec_())
 
 # if __name__ == "__main__":
