@@ -12,11 +12,11 @@ class TelaCadastroLivro(QWidget):
         self.init_ui()
 
     def init_ui(self):
-        # Configurando os elementos da tela
+        
         self.setWindowTitle("Cadastro de Livro")
         self.resize(400, 300)
 
-        # Campos de entrada
+       
         self.titulo_label = QLabel("Título:")
         self.titulo_input = QLineEdit()
 
@@ -33,11 +33,11 @@ class TelaCadastroLivro(QWidget):
         self.disponivel_checkbox = QCheckBox()
         self.disponivel_checkbox.setChecked(True)
 
-        # Botão de cadastro
+        
         self.btn_cadastrar = QPushButton("Cadastrar")
         self.btn_cadastrar.clicked.connect(self.cadastrar_livro)
 
-        # Layout da tela
+       
         layout = QVBoxLayout()
 
         layout.addWidget(self.titulo_label)
@@ -60,19 +60,19 @@ class TelaCadastroLivro(QWidget):
         self.setLayout(layout)
 
     def cadastrar_livro(self):
-        # Obtém os dados do formulário
+        
         titulo = self.titulo_input.text()
         autor = self.autor_input.text()
         isbn = self.isbn_input.text()
         genero = self.genero_input.text()
         disponivel = self.disponivel_checkbox.isChecked()
 
-        # Validação básica
+       
         if not titulo or not autor or not isbn or not genero:
             QMessageBox.warning(self, "Erro", "Todos os campos devem ser preenchidos!")
             return
 
-        # Cria o objeto Livro e cadastra
+        
         livro = Livro(titulo, autor, isbn, genero, disponivel)
 
         try:

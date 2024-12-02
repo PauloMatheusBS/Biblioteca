@@ -1,54 +1,59 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit, QLabel, QMessageBox
-from PyQt5.QtCore import Qt
-from models.usuario import Usuario  
-from controllers.usuario_controller import UsuarioController  
+from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QLineEdit, QPushButton, QMessageBox
+from controllers.usuario_controller import UsuarioController
+from database.db_connection import DBConnection
+from tela_cadastro_usuario import TelaCadastroUsuario
 
-class LoginView(QMainWindow):
+class TelaLogin(QMainWindow):
     def __init__(self):
         super().__init__()
+
         self.setWindowTitle("Login")
-        self.setGeometry(300, 300, 400, 300)
-
-        self.init_ui()
-
-    def init_ui(self):
+        self.setGeometry(100, 100, 400, 300)
         
+        # Label e campo para o email
         self.label_email = QLabel("Email:", self)
+        self.label_email.setGeometry(50, 50, 100, 30)
+        self.input_email = QLineEdit(self)
+        self.input_email.setGeometry(150, 50, 200, 30)
+
+        # Label e campo para a senha
         self.label_senha = QLabel("Senha:", self)
+        self.label_senha.setGeometry(50, 100, 100, 30)
+        self.input_senha = QLineEdit(self)
+        self.input_senha.setGeometry(150, 100, 200, 30)
+        self.input_senha.setEchoMode(QLineEdit.Password)
 
-       
-        self.email_input = QLineEdit(self)
-        self.senha_input = QLineEdit(self)
-        self.senha_input.setEchoMode(QLineEdit.Password)
+        # Botão de login
+        self.botao_login = QPushButton("Entrar", self)
+        self.botao_login.setGeometry(50, 150, 300, 30)
+        self.botao_login.clicked.connect(self.fazer_login)
 
-        
-        self.login_button = QPushButton("Login", self)
-        self.cadastrar_button = QPushButton("Cadastrar", self)
+        # Botão de cadastro
+        self.botao_cadastrar = QPushButton("Cadastre-se", self)
+        self.botao_cadastrar.setGeometry(50, 200, 300, 30)
+        self.botao_cadastrar.clicked.connect(self.abrir_tela_cadastro)
 
-        self.login_button.clicked.connect(self.login)
-        self.cadastrar_button.clicked.connect(self.cadastrar)
+        # Inicializa o controlador de usuários
+        db = DBConnection().get_conn()
+        self.usuario_controller = UsuarioController(db)
 
-        
-        layout = QVBoxLayout()
-        layout.addWidget(self.label_email)
-        layout.addWidget(self.email_input)
-        layout.addWidget(self.label_senha)
-        layout.addWidget(self.senha_input)
-        layout.addWidget(self.login_button)
-        layout.addWidget(self.cadastrar_button)
+    def fazer_login(self):
+        email = self.input_email.text()
+        senha = self.input_senha.text()
 
-        container = QWidget()
-        container.setLayout(layout)
-        self.setCentralWidget(container)
+        try:
+            usuario = self.usuario_controller.login(email, senha)
+            QMessageBox.information(self, "Login Bem-sucedido", f"Bem-vindo(a), {usuario.nome}!")
+        except ValueError as e:
+            QMessageBox.warning(self, "Erro no Login", str(e))
 
-    def login(self):
-        email = self.email_input.text()
-        senha = self.senha_input.text()
+    def abrir_tela_cadastro(self):
+        self.tela_cadastro = TelaCadastroUsuario()
+        self.tela_cadastro.show()
 
-        
-        print(f"Usuário {email} tentando logar...")
-
-    def cadastrar(self):
-        print("Redirecionar para tela de cadastro")
-
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    tela = TelaLogin()
+    tela.show()
+    sys.exit(app.exec_())
